@@ -3,13 +3,6 @@
 
 #include <string.h> // memset
 #include <unistd.h> // close syscall
-#include <net/ethernet.h>
-#include <net/if_arp.h>
-#include <netinet/ether.h>
-#include <netinet/tcp.h> // TCP header
-#include <netinet/udp.h> // UDP header
-#include <netinet/ip_icmp.h> // ICMP header
-#include <netinet/ip.h> // IP header
 #include <sys/socket.h> // Socket's APIs
 #include <arpa/inet.h> // inet_ntoa
 #include <signal.h> // signal
@@ -43,10 +36,10 @@ int main(void) {
             break;
         } else {
             wc_eth_parse(buf, &eth);
-            if (eth.proto == "IP") {
+            if (strcmp(eth.proto, "IP") == 0) {
                 wc_ip_parse(buf, &ip);
                 printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nIP: \n\tSource IP: %s\n\tDest Ip: %s\n\tVersion: %d\n\tTTL: %d\n\tProtocol: %s", eth.source, eth.dest, eth.proto, ip.source, ip.dest, ip.version, ip.ttl, ip.proto);
-            } else if (eth.proto == "ARP") {
+            } else if (strcmp(eth.proto, "ARP")) {
                 wc_arp_parse(buf, &arp);
                 printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nARP: \n\tHardware Type: %s\n\tProtocol Type: %s\n\tHardware Len: %d\n\tProtocol Len: %d\n\tOpcode: %s\n\tSender Mac: %s\n\tSender IP: %s\n\tTarget Mac: %s\n\tTarget IP: %s\n", eth.source, eth.dest, eth.proto, arp.hw_t, arp.p_t, arp.hw_len, arp.p_len, arp.opcode, arp.sender_mac, arp.sender_ip, arp.target_mac, arp.target_ip);
             }
