@@ -16,6 +16,7 @@
 
 #include "../src/eth.h"
 #include "../src/ip.h"
+#include "../src/arp.h"
 
 int main(void) {
     unsigned char *buf = (unsigned char *) malloc(65536); //to receive data
@@ -25,6 +26,7 @@ int main(void) {
     int sock, data, size;
     wc_eth eth;
     wc_ip ip;
+    wc_arp arp;
 
     printf("Stage 1: init sock");
     sock = socket(AF_PACKET , SOCK_RAW , htons(ETH_P_ALL));
@@ -41,8 +43,13 @@ int main(void) {
             break;
         } else {
             wc_eth_parse(buf, &eth);
-            wc_ip_parse(buf, &ip);
-            printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nIP: \n\tSource IP: %s\n\tDest Ip: %s\n\tVersion: %d\n\tTTL: %d\n\tProtocol: %s", eth.source, eth.dest, eth.proto, ip.source, ip.dest, ip.version, ip.ttl, ip.proto);
+            if (eth.proto == "IP") {
+                wc_ip_parse(buf, &ip);
+                printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nIP: \n\tSource IP: %s\n\tDest Ip: %s\n\tVersion: %d\n\tTTL: %d\n\tProtocol: %s", eth.source, eth.dest, eth.proto, ip.source, ip.dest, ip.version, ip.ttl, ip.proto);
+            } else if (eth.proto == "ARP") {
+                wc_arp_parse(buf, &arp);
+                printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nARP: \n\tHardware Type: %s\n\tProtocol Type: %s\n\tHardware Len: %d\n\tProtocol Len: %d\n\tOpcode: %s\n\tSender Mac: %s\n\tSender IP: %s\n\tTarget Mac: %s\n\tTarget IP: %s\n", eth.source, eth.dest, eth.proto, arp.hw_t, arp.p_t, arp.hw_len, arp.p_len, arp.opcode, arp.sender_mac, arp.sender_ip, arp.target_mac, arp.target_ip);
+            }
         }
     }
 
