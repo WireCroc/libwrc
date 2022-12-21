@@ -38,7 +38,19 @@ int main(void) {
             wc_eth_parse(buf, &eth);
             if (strcmp(eth.proto, "IP") == 0) {
                 wc_ip_parse(buf, &ip);
-//                printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nIP: \n\tSource IP: %s\n\tDest Ip: %s\n\tVersion: %d\n\tTTL: %d\n\tProtocol: %s", eth.source, eth.dest, eth.proto, ip.source, ip.dest, ip.version, ip.ttl, ip.proto);
+               printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nIP: \n\tSource IP: %s\n\tDest Ip: %s\n\tVersion: %d\n\tTTL: %d\n\tProtocol: %s", eth.source, eth.dest, eth.proto, ip.source, ip.dest, ip.version, ip.ttl, ip.proto);
+                if (strcmp(ip.proto, "TCP") == 0)
+                {
+                    struct tcphdr *tcp_header = (struct tcphdr *)(buf + (ip.ihl * 4));
+                    printf("TCP packet: src port = %d, dst port = %d\n", ntohs(tcp_header->source), ntohs(tcp_header->dest));
+                    // printf("\n\tSource Port: %d\n\tDest Port: %d", ip.source, ip.dest);
+                }
+                else if (strcmp(ip.proto, "UDP") == 0)
+                {
+                    struct udphdr *udp_header = (struct udphdr *)(buf + (ip.ihl * 4));
+                    printf("UDP packet: src port = %d, dst port = %d\n", ntohs(udp_header->source), ntohs(udp_header->dest));
+                    // printf("\n\tSource Port: %d\n\tDest Port: %d", ip.source, ip.dest);
+                }
             } else if (strcmp(eth.proto, "ARP")) {
                 wc_arp_parse(buf, &arp);
                 printf("\n ************************************* \nETH: \n\tSource: %s\n\tDest: %s\n\tProtocol: %s\nARP: \n\tHardware Type: %s\n\tProtocol Type: %s\n\tHardware Len: %d\n\tProtocol Len: %d\n\tOpcode: %s\n\tSender Mac: %s\n\tSender IP: %s\n\tTarget Mac: %s\n\tTarget IP: %s\n", eth.source, eth.dest, eth.proto, arp.hw_t, arp.p_t, arp.hw_len, arp.p_len, arp.opcode, arp.sender_mac, arp.sender_ip, arp.target_mac, arp.target_ip);
