@@ -6,6 +6,8 @@
 #include <sys/socket.h> // Socket's APIs
 #include <arpa/inet.h> // inet_ntoa
 #include <signal.h> // signal
+#include <netinet/tcp.h> //tcp header
+#include <netinet/udp.h> //udp header
 
 #include "../src/eth.h"
 #include "../src/ip.h"
