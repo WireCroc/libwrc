@@ -24,6 +24,6 @@ typedef struct {
     char* proto;
 } wc_ip;
 
-void wc_ip_parse(const unsigned char* in, wc_ip* out);
+void wc_ip_p(const unsigned char* in, wc_ip* out);
 
 #endif

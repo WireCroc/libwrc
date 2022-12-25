@@ -1,4 +1,4 @@
-#ifndef WC_ARP_H
+x#ifndef WC_ARP_H
 #define WC_ARP_H
 
 #pragma once
@@ -34,6 +34,6 @@ typedef struct {
     char *target_ip;
 } wc_arp;
 
-void wc_arp_parse(const unsigned char* in, wc_arp* out);
+void wc_arp_p(const unsigned char* in, wc_arp* out);
 
 #endif

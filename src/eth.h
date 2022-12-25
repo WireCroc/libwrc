@@ -21,6 +21,6 @@ typedef struct {
     char* proto;
 } wc_eth;
 
-void wc_eth_parse(const unsigned char* in, wc_eth* out);
+void wc_eth_p(const unsigned char* in, wc_eth* out);
 
 #endif

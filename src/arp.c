@@ -1,8 +1,8 @@
 #include "arp.h"
 
-void wc_arp_parse(const unsigned char *in, wc_arp *out) {
+void wc_arp_p(const unsigned char *in, wc_arp *out) {
     wc_arphdr *arp = (wc_arphdr*)(in + sizeof(wc_ethdr));
-    // hardware type
+   // hardware type
     //if (arp->ar_hrd == ARPHRD_ETHER)
         //    out->hw_t = "ETHERNET";
     //else

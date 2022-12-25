@@ -1,6 +1,6 @@
 #include "ip.h"
 
-void wc_ip_parse(const unsigned char *in, wc_ip *out) {
+void wc_ip_p(const unsigned char *in, wc_ip *out) {
     struct sockaddr_in si, di;
     memset(&si, 0, sizeof(si));
     memset(&di, 0, sizeof(di));
