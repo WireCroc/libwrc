@@ -23,6 +23,7 @@
 
 typedef int SOCKET;
 
-char* wc_format(const char *text, ...);
+void todo(FILE*, const char*, int);
+char* wc_format(const char*, ...);
 
 #endif

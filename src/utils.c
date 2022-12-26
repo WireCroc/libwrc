@@ -1,5 +1,10 @@
 #include "utils.h"
 
+void todo(FILE* f, const char *text, int code) {
+    fprintf(f, text, 0);
+    exit(code);
+}
+
 char* wc_format(const char *text, ...) {
     static char buffers[MAX_TEXTFORMAT_BUFFERS][MAX_TEXT_BUFFER_LENGTH] = { 0 };
     static int index = 0;
