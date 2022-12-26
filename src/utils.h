@@ -10,12 +10,18 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <netinet/in.h>
+#include <sys/socket.h> 
+#include <signal.h>
 
 #define MAX_TEXTFORMAT_BUFFERS 2048
 #define MAX_TEXT_BUFFER_LENGTH 2048
 
+#define MAX_PA 3
+
 #define TCP 6
 #define UDP 17
+
+typedef int SOCKET;
 
 char* wc_format(const char *text, ...);
 
