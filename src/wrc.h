@@ -20,17 +20,14 @@ typedef enum {
 } pa;
 
 typedef struct {
-} wc_res;
-
-typedef struct {
-  wc_eth eth;
-  union {
-    wc_arp arp;
-    wc_ip ip;
-    wc_tcp tcp;
-    wc_udp udp;
-  };
-  pa p[MAX_PA];
+    wc_eth eth;
+    union {
+        wc_arp arp;
+        wc_ip ip;
+        wc_tcp tcp;
+        wc_udp udp;
+    };
+    pa p[MAX_PA];
 } wc_pa;
 
 typedef struct {
@@ -43,18 +40,18 @@ typedef struct {
     SOCKET fd;
     int32_t recvl;
     uint64_t recvn;
-    wc_pa pa;
-    wc_iface iface;
-    struct sockaddr saddr;
+    wc_iface* iface;
+    struct sockaddr* saddr;
     union {
-        unsigned char* buf;
+        wc_pa pa;
+        unsigned char* recv;
     };
 } wrc;
 
 void wrc_default(wrc*); 
-int wrc_setopts(wrc*, char*, pa, int8_t);
 void wrc_destroy(wrc*); 
 
+int wrc_setopts(wrc*, char*, pa, int8_t);
 int wrc_run_loop(wrc*, void (*cb)(wrc* a));
 int wrc_run_(wrc*);
 
