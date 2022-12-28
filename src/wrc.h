@@ -31,29 +31,35 @@ typedef struct {
 } wc_pa;
 
 typedef struct {
-    char* name;
+    char name[MAX_IFNAME];
     uint64_t mtu;
     uint8_t flag;
 } wc_iface;
 
 typedef struct {
-    SOCKET fd;
-    int32_t recvl;
-    uint64_t recvn;
-    wc_iface* iface;
-    struct sockaddr* saddr;
-    union {
-        wc_pa pa;
-        unsigned char* recv;
-    };
+    wc_iface* ifc;
+    uint8_t len;
+} wc_iflist;
+
+typedef struct {
+  SOCKET fd;
+  int32_t recvl;
+  uint64_t recvn;
+  wc_iface *iface;
+  struct sockaddr *saddr;
+  union {
+    wc_pa pa;
+    unsigned char *recv;
+  };
 } wrc;
 
 void wrc_default(wrc*); 
-void wrc_destroy(wrc*); 
+void wrc_destroy(wrc*);
 
-int wrc_setopts(wrc*, char*, pa, int8_t);
-int wrc_run_loop(wrc*, void (*cb)(wrc* a));
-int wrc_run_(wrc*);
+int8_t wrc_setopts(wrc*, char*, pa, int8_t);
+int8_t wrc_run_loop(wrc*, void (*cb)(wrc* a));
+int8_t wrc_run_(wrc*);
+wc_iflist wrc_get_interfaces(void);
 
 // private fucs
 void wrc_get_packets(wrc*);
