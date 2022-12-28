@@ -12,11 +12,15 @@
 #include <netinet/in.h>
 #include <sys/socket.h> 
 #include <signal.h>
+#include <sys/types.h>
+#include <ifaddrs.h>
 
 #define MAX_TEXTFORMAT_BUFFERS 2048
 #define MAX_TEXT_BUFFER_LENGTH 2048
 
 #define MAX_PA 3
+#define MAX_IFACE 10
+#define MAX_IFNAME 80
 
 #define TCP 6
 #define UDP 17

@@ -7,7 +7,7 @@
 #include "ip.h"
 #include <netinet/udp.h>
 
-typedef udphdr wc_udp;
+typedef struct udphdr wc_udp;
 
 void wc_udp_p(const unsigned char*, wc_udp*, uint16_t ihl);
 
