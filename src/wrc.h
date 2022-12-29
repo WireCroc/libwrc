@@ -11,12 +11,12 @@
 #include "udp.h"
 
 typedef enum {
-    PA_ETH = 0,
+    PA_NULL = 0,
     PA_IP,
     PA_ARP,
     PA_TCP,
     PA_UDP,
-    PA_NULL
+    PA_ETH
 } pa;
 
 typedef struct {
@@ -37,31 +37,33 @@ typedef struct {
 } wc_iface;
 
 typedef struct {
-    wc_iface* ifc;
+    wc_iface ifc[MAX_IFACE];
     uint8_t len;
 } wc_iflist;
 
 typedef struct {
-  SOCKET fd;
-  int32_t recvl;
-  uint64_t recvn;
-  wc_iface *iface;
-  struct sockaddr *saddr;
-  union {
-    wc_pa pa;
-    unsigned char *recv;
-  };
+    int fd;
+    int32_t recvl;
+    uint64_t recvn;
+    wc_iface iface;
+    pa ign_pa;
+    int8_t flag;
+    struct sockaddr saddr;
+    union {
+        unsigned char *recv;
+    };
 } wrc;
 
 void wrc_default(wrc*); 
 void wrc_destroy(wrc*);
 
-int8_t wrc_setopts(wrc*, char*, pa, int8_t);
+int8_t wrc_setopts(wrc*, wc_iface, pa, int8_t);
 int8_t wrc_run_loop(wrc*, void (*cb)(wrc* a));
 int8_t wrc_run_(wrc*);
 wc_iflist wrc_get_interfaces(void);
 
 // private fucs
-void wrc_get_packets(wrc*);
+wc_pa wrc_get_packets(wrc*);
+void wc_pa_set(wc_pa*);
 
 #endif
