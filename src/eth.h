@@ -18,7 +18,7 @@ typedef struct ethhdr wc_ethdr;
 typedef struct {
     unsigned char* source;
     unsigned char* dest;
-    char* proto;
+    unsigned short proto;
 } wc_eth;
 
 void wc_eth_p(const unsigned char* in, wc_eth* out);

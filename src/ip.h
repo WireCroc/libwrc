@@ -21,7 +21,7 @@ typedef struct {
     int32_t hchs;
     unsigned char* source;
     unsigned char* dest;
-    char* proto;
+    uint8_t proto;
 } wc_ip;
 
 void wc_ip_p(const unsigned char* in, wc_ip* out);
