@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "utils.h"
+#include "../utils/utils.h"
 #include <netinet/tcp.h>
 
 typedef struct tcphdr wc_tcp;

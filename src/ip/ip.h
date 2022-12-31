@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "utils.h"
-#include "eth.h"
+#include "../utils/utils.h"
+#include "../eth/eth.h"
 
 #include <net/ethernet.h>
 #include <netinet/ip.h>

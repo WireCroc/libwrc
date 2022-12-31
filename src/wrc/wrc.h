@@ -3,12 +3,12 @@
 
 #pragma once
 
-#include "utils.h"
-#include "eth.h"
-#include "ip.h"
-#include "arp.h"
-#include "tcp.h"
-#include "udp.h"
+#include "../utils/utils.h"
+#include "../eth/eth.h"
+#include "../ip/ip.h"
+#include "../arp/arp.h"
+#include "../tcp/tcp.h"
+#include "../udp/udp.h"
 
 typedef enum {
     PA_NULL = 0,

@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "utils.h"
-#include "ip.h"
+#include "../utils/utils.h"
+#include "../ip/ip.h"
 #include <netinet/udp.h>
 
 typedef struct udphdr wc_udp;
