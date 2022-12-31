@@ -9,10 +9,10 @@
 #include <netinet/tcp.h> //tcp header
 #include <netinet/udp.h> //udp header
 
-#include "../src/eth.h"
-#include "../src/ip.h"
-#include "../src/utils.h"
-#include "../src/arp.h"
+#include "../src/eth/eth.h"
+#include "../src/ip/ip.h"
+#include "../src/utils/utils.h"
+#include "../src/arp/arp.h"
 
 int main(void) {
     unsigned char *buf = (unsigned char *) malloc(65536); //to receive data

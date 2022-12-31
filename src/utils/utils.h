@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <ifaddrs.h>
 #include <net/if.h>
+#include <time.h>
 
 #define OK 0
 #define ERR 1
