@@ -10,6 +10,8 @@
 #include "../tcp/tcp.h"
 #include "../udp/udp.h"
 
+static uint8_t CAPL  = 1;
+
 typedef enum {
     PA_NULL = 0,
     PA_IP,
@@ -58,8 +60,8 @@ void wrc_default(wrc*);
 void wrc_destroy(wrc*);
 
 int8_t wrc_setopts(wrc*, wc_iface, pa, int8_t);
-int8_t wrc_run_loop(wrc*, void (*cb)(wrc* a));
-int8_t wrc_run_(wrc*);
+int8_t wrc_cap(wrc*, uint8_t, void (*cb)(wc_pa, FILE*));
+void DEFAULT_CAP(wc_pa, FILE*);
 wc_iflist wrc_get_interfaces(void);
 
 // private fucs

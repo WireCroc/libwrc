@@ -36,12 +36,43 @@ void wrc_destroy(wrc *w) {
        free(w->recv);
 }
 
-int8_t wrc_run_loop(wrc* w, void (*cb)(wrc*)) {
-    todo(stdout, "Run sniffer in loop", 0);
+int8_t wrc_cap(wrc* w, uint8_t f, void (*cb)(wc_pa, FILE*)) {
+    // todo(stdout, "Run sniffer in loop", 0);
+    FILE* fp;
+    if (f != 0) {
+      time_t t = time(NULL);
+      struct tm tm = *localtime(&t);
+
+      fp = fopen(wc_format("%d-%02d-%02d-%02d-%02d-%02d.wrc", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec), "w");
+    }
+
+    do {
+        wc_pa pa = wrc_get_packets(w);
+        if (pa.p[0] == PA_NULL)
+            CAPL = 0;
+        cb(pa, f != 0 ? fp : stdout);
+    } while (CAPL);
+    fclose(fp);
+    
+    return OK;
 }
 
-int8_t wrc_run_(wrc *w) {
-    todo(stdout, "Run sniffer without loop", 0);
+void DEFAULT_CAP(wc_pa pa, FILE* fp) {
+    for (int i = 0; i < MAX_PA; i++) {
+        if (pa.p[i] == PA_ETH) {            
+            fprintf(fp, "Ethernet\n\tMac Src: %s\t|\tMac Dst: %s\n", pa.eth.source, pa.eth.dest);
+        } else if (pa.p[i] == PA_ARP) {
+            fprintf(fp, "ARP\n\tHardware Type: %s\t|\tProtocol Type: %s\n\tHardware Address Length: %d\t|\tProtocol Address Length: %d\n\tOpcode: %s\n\tSender Mac: %s\n\tTarget Mac: %s\n\tSender IP: %s\n\tTarget IP: %s\n", pa.arp.hw_t, pa.arp.p_t, pa.arp.hw_len, pa.arp.p_len, pa.arp.opcode, pa.arp.sender_mac, pa.arp.target_mac, pa.arp.sender_ip, pa.arp.target_ip);
+        } else if (pa.p[i] == PA_IP) {
+            fprintf(fp, "IP\n\tSrc Address: %s\t|\tDst Address: %s\n", pa.ip.source, pa.ip.dest);
+        } else if (pa.p[i] == PA_TCP) {
+            fprintf(fp, "TCP\n\tWindow: %d\t|\tACK Seq: %d\n\tSrc Port: %d\t|\tDst Port: %d\n", pa.tcp.window, pa.tcp.ack_seq ,pa.tcp.source, pa.tcp.dest);
+        } else if (pa.p[i] == PA_UDP) {
+            fprintf(fp, "UDP\n\tSrc Port: %d\t|\tDst Port: %d\n", pa.udp.source, pa.udp.dest);
+        } else if (pa.p[i] == PA_NULL && (i + 1 == MAX_PA || i == MAX_PA - 2)) {
+            fprintf(fp, "\t_________________________\n");
+        }
+    }
 }
 
 wc_iflist wrc_get_interfaces(void) {
@@ -82,7 +113,7 @@ wc_pa wrc_get_packets(wrc* w) {
 
     if (w->recvl < 0) {
         fprintf(stderr, "Cant Get Packets\n");
-        exit(1);
+        return (wc_pa) {.p[0] = PA_NULL};
     } else {
         wc_eth_p(w->recv, &res.eth);
         res.p[0] = PA_ETH;
