@@ -23,10 +23,12 @@ typedef enum {
 
 typedef struct {
     wc_eth eth;
-    wc_arp arp;
-    wc_ip ip;
-    wc_tcp tcp;
-    wc_udp udp;
+    union {
+        wc_arp arp;
+        wc_ip ip;
+        wc_tcp tcp;
+        wc_udp udp;
+    };
     pa p[MAX_PA];
 } wc_pa;
 
