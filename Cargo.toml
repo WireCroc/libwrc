@@ -1,0 +1,11 @@
+[package]
+name = "libwrc-rs"
+version = "0.1.0"
+authors = ["nikolay <nikogogitadze2@gmail.com>", "Giorgi <>"]
+edition = "2021"
+
+[dependencies]
+libc = "*"
+
+[build-dependencies]
+cc = "1.0.32"
