@@ -142,10 +142,10 @@ wc_pa wrc_get_packets(wrc* w) {
 }
 
 void wc_pa_set(wc_pa *p) {
-    p->eth = {0};
-    p->arp = {0};
-    p->ip = {0};
-    p->tcp = {0};
-    p->udp = {0};
+    p->eth = (wc_eth) {0};
+    p->arp = (wc_arp) {0};
+    p->ip = (wc_ip) {0};
+    p->tcp = (wc_tcp) {0};
+    p->udp = (wc_udp) {0};
     memset(p->p, 0, sizeof(p->p));
 }
