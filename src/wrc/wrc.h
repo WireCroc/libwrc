@@ -23,12 +23,10 @@ typedef enum {
 
 typedef struct {
     wc_eth eth;
-    union {
-        wc_arp arp;
-        wc_ip ip;
-        wc_tcp tcp;
-        wc_udp udp;
-    };
+    wc_arp arp;
+    wc_ip ip;
+    wc_tcp tcp;
+    wc_udp udp;
     pa p[MAX_PA];
 } wc_pa;
 
@@ -51,9 +49,7 @@ typedef struct {
     pa ign_pa;
     int8_t flag;
     struct sockaddr saddr;
-    union {
-        unsigned char *recv;
-    };
+    unsigned char *recv;
 } wrc;
 
 void wrc_default(wrc*); 

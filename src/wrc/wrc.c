@@ -142,5 +142,10 @@ wc_pa wrc_get_packets(wrc* w) {
 }
 
 void wc_pa_set(wc_pa *p) {
+    memset(p->eth, 0, sizeof(wc_eth));
+    memset(p->arp, 0, sizeof(wc_arp));
+    memset(p->ip, 0, sizeof(wc_ip));
+    memset(p->tcp, 0, sizeof(wc_tcp));
+    memset(p->udp, 0, sizeof(wc_udp));
     memset(p->p, 0, MAX_PA);
 }
