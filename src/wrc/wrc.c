@@ -147,5 +147,5 @@ void wc_pa_set(wc_pa *p) {
     p->ip = {0};
     p->tcp = {0};
     p->udp = {0};
-    memset(p->p, 0, MAX_PA);
+    memset(p->p, 0, sizeof(p->p));
 }
