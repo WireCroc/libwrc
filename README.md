@@ -8,11 +8,9 @@
 
 int main(void) {
     wrc cap;
-    wc_iflist ifc;
+    wc_iflist ifc = wrc_get_interfaces();
     
     wrc_default(&cap);
-
-    ifc = wrc_get_interfaces();
 
     int opts = wrc_setopts(&cap, ifc.ifc[2], PA_NULL, 0);
     if (opts != 0) {
