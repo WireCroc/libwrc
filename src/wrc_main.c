@@ -1,5 +1,9 @@
 #include "./wrc/wrc.h"
 
+// void custom_func(wc_pa pa) {
+//     fprintf(fp, "\n%s\n%s", pa.eth.source, pa.eth.dest);
+// } 
+
 int main(void) {
     wrc cap;
     wc_iflist ifc = wrc_get_interfaces();
@@ -11,9 +15,8 @@ int main(void) {
         printf("setopts error\n");
         exit(0);
     }
-    
-    wrc_cap(&cap, 1, DEFAULT_CAP);
-    
+    //               custom_func
+    wrc_cap(&cap, 1, DEFAULT_CAP);  
     wrc_destroy(&cap);
         
     return 0; 
