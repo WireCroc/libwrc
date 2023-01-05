@@ -66,7 +66,7 @@ void DEFAULT_CAP(wc_pa pa, FILE* fp) {
         } else if (pa.p[i] == PA_IP) {
             fprintf(fp, "IP\n\tSrc Address: %s\t|\tDst Address: %s\n", pa.ip.source, pa.ip.dest);
         } else if (pa.p[i] == PA_TCP) {
-            fprintf(fp, "TCP\n\tWindow: %d\t|\tACK Seq: %d\n\tSrc Port: %d\t|\tDst Port: %d\n", pa.tcp.window, pa.tcp.ack_seq ,pa.tcp.source, pa.tcp.dest);
+            fprintf(fp, "TCP\n\tWindow: %d\t|\tACK Sequence: %d\n\tSrc Port: %d\t|\tDst Port: %d\n", pa.tcp.window, pa.tcp.ack_sequence ,pa.tcp.source, pa.tcp.dest);
         } else if (pa.p[i] == PA_UDP) {
             fprintf(fp, "UDP\n\tSrc Port: %d\t|\tDst Port: %d\n", pa.udp.source, pa.udp.dest);
         } else if (pa.p[i] == PA_NULL && (i + 1 == MAX_PA || i == MAX_PA - 2)) {
