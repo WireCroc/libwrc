@@ -16,7 +16,7 @@ typedef struct {
     uint16_t window;
     uint16_t checksum;
     uint8_t flag;
-} wc_tcp;
+} wc_tcp; // tcp struct definition
 
 void wc_tcp_p(const unsigned char*, wc_tcp*, uint16_t);
 

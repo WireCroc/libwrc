@@ -20,7 +20,7 @@ typedef struct {
     unsigned char __ar_sip[4];                /* Sender IP address.  */
     unsigned char __ar_tha[ETH_ALEN];        /* Target hardware address.  */
     unsigned char __ar_tip[4];                /* Target IP address.  */
-} wc_arphdr;
+} wc_arphdr; // arp header definition
 
 typedef struct {
     char *hw_t;
@@ -32,7 +32,7 @@ typedef struct {
     char *sender_ip;
     char *target_mac;
     char *target_ip;
-} wc_arp;
+} wc_arp; // arp struct definition
 
 void wc_arp_p(const unsigned char* in, wc_arp* out);
 

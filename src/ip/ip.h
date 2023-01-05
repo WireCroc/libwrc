@@ -22,7 +22,7 @@ typedef struct {
     unsigned char* source;
     unsigned char* dest;
     uint8_t proto;
-} wc_ip;
+} wc_ip; // ip struct definition
 
 void wc_ip_p(const unsigned char* in, wc_ip* out);
 

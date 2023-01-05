@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <netinet/in.h>
-#include <sys/socket.h> 
+#include <sys/socket.h>
 #include <signal.h>
 #include <sys/types.h>
 #include <ifaddrs.h>
@@ -32,7 +32,7 @@
 
 typedef int SOCKET;
 
-void todo(FILE*, const char*, int);
-char* wc_format(const char*, ...);
+void todo(FILE *, const char *, int);
+char *wc_format(const char *, ...);
 
 #endif

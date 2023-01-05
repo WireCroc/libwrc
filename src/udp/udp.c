@@ -7,3 +7,4 @@ void wc_udp_p(const unsigned char *in, wc_udp *out, uint16_t ihl) {
     out->check = ntohs(udp->check);
     out->len = ntohs(udp->len);
 }
+// parse udp header
