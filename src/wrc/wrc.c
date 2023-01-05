@@ -12,7 +12,7 @@ void wrc_default(wrc* w) {
     w->iface = (wc_iface) {0};
     w->flag = 0;
     w->ign_pa = PA_NULL;
-}
+} // creating a socket
 
 int8_t wrc_setopts(wrc* w, wc_iface ifc, pa ignore_p, int8_t flag) {
     // todo(stdout, "set options for wrc", 0);
@@ -26,7 +26,7 @@ int8_t wrc_setopts(wrc* w, wc_iface ifc, pa ignore_p, int8_t flag) {
     w->ign_pa = ignore_p;
     w->flag = flag;
     return OK;
-}
+} // setting options
 
 void wrc_destroy(wrc *w) {
     // todo(stdout, "Free wrc and trash", 0);
@@ -34,7 +34,7 @@ void wrc_destroy(wrc *w) {
     close(w->fd);
     if (w->recv > 0)
        free(w->recv);
-}
+} // closing a socket and freeing memory
 
 int8_t wrc_cap(wrc* w, uint8_t f, void (*cb)(wc_pa, FILE*)) {
     // todo(stdout, "Run sniffer in loop", 0);
@@ -55,7 +55,7 @@ int8_t wrc_cap(wrc* w, uint8_t f, void (*cb)(wc_pa, FILE*)) {
     fclose(fp);
     
     return OK;
-}
+} // capturing packets
 
 void DEFAULT_CAP(wc_pa pa, FILE* fp) {
     for (int i = 0; i < MAX_PA; i++) {
@@ -73,7 +73,7 @@ void DEFAULT_CAP(wc_pa pa, FILE* fp) {
             fprintf(fp, "\t_________________________\n");
         }
     }
-}
+} // default capture function
 
 wc_iflist wrc_get_interfaces(void) {
     // todo(stdout, "Get all Interfaces", 0);
@@ -101,7 +101,7 @@ wc_iflist wrc_get_interfaces(void) {
 
     freeifaddrs(ifa);
     return res;
-}
+} //function for getting interfaces
 
 // private fucs
 wc_pa wrc_get_packets(wrc* w) {
@@ -139,7 +139,7 @@ wc_pa wrc_get_packets(wrc* w) {
         }
     }
     return res;
-}
+} // getting packets and returning them
 
 void wc_pa_set(wc_pa *p) {
     p->eth = (wc_eth) {0};
@@ -148,4 +148,4 @@ void wc_pa_set(wc_pa *p) {
     p->tcp = (wc_tcp) {0};
     p->udp = (wc_udp) {0};
     memset(p->p, 0, sizeof(p->p));
-}
+} // declaring packet struct

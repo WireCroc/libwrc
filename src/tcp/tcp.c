@@ -9,4 +9,5 @@ void wc_tcp_p(const unsigned char *in, wc_tcp *out, uint16_t ihl) {
     out->window = tcp->window;
     out->checksum = tcp->check;
     out->flag = tcp->th_flags;
-}
+} 
+//parse tcp header
