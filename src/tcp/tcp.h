@@ -12,7 +12,7 @@ typedef struct {
     uint16_t source;
     uint16_t dest;
     uint32_t sequence;
-    uint64_t ack_sequence;
+    uint32_t ack_sequence;
     uint16_t window;
     uint16_t checksum;
     uint8_t flag;
