@@ -1,9 +1,20 @@
 # Libwrc
 **Packet capture library.**
 
-### **Example**
+## Installation
+
+1. Run `make install`
+
+## Usage
+
 ```c
-#include <wrc.h>
+#include <wrc/wrc.h>
+```
+
+## Example
+
+```c
+#include <wrc/wrc.h>
 
 int main(void) {
     wrc cap;
@@ -24,3 +35,22 @@ int main(void) {
     return 0; 
 }
 ```
+
+## Development
+
+```bash
+$ make lib
+```
+
+## Contributing
+
+1. Fork it (<https://github.com/wirecroc/libwrc/fork>)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
+
+## Contributors
+
+- [Nikolaycc](https://github.com/nikolaycc) - creator and maintainer
+- [PabloEscobar1337](https://github.com/PabloEscobar1337) - creator and maintainer
