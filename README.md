@@ -14,8 +14,6 @@
 ## Example
 
 ```c
-#include <wrc/wrc.h>
-
 int main(void) {
     wrc cap;
     wc_iflist ifc = wrc_get_interfaces();
