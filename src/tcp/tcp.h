@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../utils/utils.h"
+#include "../eth/eth.h"
 #include <netinet/tcp.h>
 
 typedef struct tcphdr wc_tcphdr;
