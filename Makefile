@@ -20,9 +20,9 @@ all: lib
 lib: src/wrc/wrc.c
 	@${CC} ${LFLAGS} ${WRC} ${ETH} ${ARP} ${IP} ${TCP} ${UDP} ${UTILS};
 	${CC} -shared -o ${LOUT} wrc.o eth.o arp.o ip.o tcp.o udp.o utils.o;
-	rm -rfv wrc.o eth.o arp.o ip.o tcp.o udp.o utils.o
+	@rm -rfv wrc.o eth.o arp.o ip.o tcp.o udp.o utils.o
 
 install: bin/libwrc.so
 	@mv $(LOUT) /usr/lib/;
-	if [ -d "/usr/include/wrc" ]; then echo "Dir exists"; else @mkdir /usr/include/wrc && @cp -r src/wrc src/utils src/eth src/ip src/arp src/tcp src/udp src/wrc.h /usr/include/wrc/;  fi
+	@if [ -d "/usr/include/wrc" ]; then echo "Dir exists"; else @mkdir /usr/include/wrc && @cp -r src/wrc src/utils src/eth src/ip src/arp src/tcp src/udp src/wrc.h /usr/include/wrc/;  fi
 	echo "Done!"
