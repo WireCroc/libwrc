@@ -24,5 +24,5 @@ lib: src/wrc/wrc.c
 
 install: bin/libwrc.so
 	@mv $(LOUT) /usr/lib/;
-	@if [ -d "/usr/include/wrc" ]; then echo "Dir exists"; else @mkdir /usr/include/wrc && @cp -r src/wrc src/utils src/eth src/ip src/arp src/tcp src/udp src/wrc.h /usr/include/wrc/;  fi
+	@if [ -d "/usr/include/wrc" ]; then echo "Dir exists"; else mkdir /usr/include/wrc && cp -r src/wrc src/utils src/eth src/ip src/arp src/tcp src/udp src/wrc.h /usr/include/wrc/;  fi
 	@echo "Done!"
