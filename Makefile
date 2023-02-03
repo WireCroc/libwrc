@@ -18,7 +18,6 @@ WRC = src/wrc/wrc.c
 all: lib
 
 lib: src/wrc/wrc.c
-	@mkdir bin
 	@${CC} ${LFLAGS} ${WRC} ${ETH} ${ARP} ${IP} ${TCP} ${UDP} ${UTILS};
 	${CC} -shared -o ${LOUT} wrc.o eth.o arp.o ip.o tcp.o udp.o utils.o;
 	rm -rfv wrc.o eth.o arp.o ip.o tcp.o udp.o utils.o
