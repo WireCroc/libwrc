@@ -1,1 +1,1 @@
-#include "src/wrc/wrc.h"
+#include "wrc/wrc.h"
