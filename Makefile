@@ -26,5 +26,5 @@ lib: src/wrc/wrc.c
 install: bin/libwrc.so
 	@mv $(LOUT) /usr/lib/;
 	@mkdir /usr/include/wrc;
-	@cp -r src/wrc src/utils src/eth src/ip src/arp src/tcp src/udp wrc.h /usr/include/wrc/;
+	@cp -r src/wrc src/utils src/eth src/ip src/arp src/tcp src/udp src/wrc.h /usr/include/wrc/;
 	echo "Done!"
