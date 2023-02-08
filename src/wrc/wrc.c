@@ -1,9 +1,12 @@
 #include "wrc.h"
 
+static uint8_t CAPL = 1;
+static wc_err WC_ERROR = {0};
+
 void wrc_default(wrc* w) {
     // todo(stdout, "Impl Wrc Default VL", 0);
     if (getuid())
-        wrc_error((wc_err) {.code = ERR_SUDO, .msg = "Error: please run program with sudo"})
+        wrc_error((wc_err) {.code = ERR_SUDO, .msg = "Error: please run program with sudo"});
     
     w->fd = socket(AF_PACKET , SOCK_RAW , htons(ETH_P_ALL));
     if (w->fd < 0) {
@@ -17,9 +20,9 @@ void wrc_default(wrc* w) {
     w->ign_pa = PA_NULL;
 } // creating a socket
 
-static wc_error wrc_error(wc_err err) {
-    if (err == NULL)
-        return WC_ERROR
+static wc_err wrc_error(wc_err err) {
+    if (ERR_NULL == err.code)
+        return WC_ERROR;
     else
         WC_ERROR = err;
 }

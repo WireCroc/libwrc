@@ -10,6 +10,7 @@
 #include "../tcp/tcp.h"
 #include "../udp/udp.h"
 
+#define ERR_NULL 0
 #define ERR_IFC 1
 #define ERR_SUDO 2
 #define ERR_SETOPTS 3
@@ -29,9 +30,6 @@ typedef struct {
     uint8_t code;
     char* msg;
 } wc_err;
-
-static uint8_t CAPL = 1;
-static wc_err WC_ERROR = {0};
 
 typedef struct {
     wc_eth eth;
