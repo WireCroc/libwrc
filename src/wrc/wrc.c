@@ -2,9 +2,12 @@
 
 void wrc_default(wrc* w) {
     // todo(stdout, "Impl Wrc Default VL", 0);
+    if (getuid())
+        wrc_error((wc_err) {.code = ERR_SUDO, .msg = "Error: please run program with sudo"})
+    
     w->fd = socket(AF_PACKET , SOCK_RAW , htons(ETH_P_ALL));
     if (w->fd < 0) {
-        fprintf(stderr, "Socket Error\n");
+        wrc_error((wc_err) {.code = ERR_SOCK, .msg = "Error: failed init socket"});
         exit(w->fd);
     }
     w->recvl = 0;
@@ -14,11 +17,20 @@ void wrc_default(wrc* w) {
     w->ign_pa = PA_NULL;
 } // creating a socket
 
+static wc_error wrc_error(wc_err err) {
+    if (err == NULL)
+        return WC_ERROR
+    else
+        WC_ERROR = err;
+}
+
 int8_t wrc_setopts(wrc* w, wc_iface ifc, pa ignore_p, int8_t flag) {
     // todo(stdout, "set options for wrc", 0);
     int stat = setsockopt(w->fd, SOL_SOCKET, SO_BINDTODEVICE, ifc.name, strlen(ifc.name));
-    if (stat != 0)
-        return ERR;
+    if (stat != 0) {
+        wrc_error((wc_err) {.code = ERR_SETSOCK, .msg = "Error: failed setopts socket"});
+        return ERR_SETSOCK;
+    }
 
     w->recv = (unsigned char*) malloc(ifc.mtu);
     memset(w->recv, 0, ifc.mtu);

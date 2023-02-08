@@ -10,10 +10,13 @@
 #include "../tcp/tcp.h"
 #include "../udp/udp.h"
 
-static uint8_t CAPL = 1;
+#define ERR_IFC 1
+#define ERR_SUDO 2
+#define ERR_SETOPTS 3
+#define ERR_SOCK 4
+#define ERR_SETSOCK 5
 
-typedef enum
-{
+typedef enum {
     PA_NULL = 0,
     PA_IP,
     PA_ARP,
@@ -22,11 +25,17 @@ typedef enum
     PA_ETH
 } pa; // packet type enum
 
-typedef struct
-{
+typedef struct {
+    uint8_t code;
+    char* msg;
+} wc_err;
+
+static uint8_t CAPL = 1;
+static wc_err WC_ERROR = {0};
+
+typedef struct {
     wc_eth eth;
-    union
-    {
+    union {
         wc_arp arp;
         wc_ip ip;
         wc_tcp tcp;
@@ -35,21 +44,18 @@ typedef struct
     pa p[MAX_PA];
 } wc_pa; // packet struct definition
 
-typedef struct
-{
+typedef struct {
     char name[MAX_IFNAME];
     uint64_t mtu;
     uint8_t flag;
 } wc_iface; // interface struct definition
 
-typedef struct
-{
+typedef struct {
     wc_iface ifc[MAX_IFACE];
     uint8_t len;
 } wc_iflist; // interface list struct definition
 
-typedef struct
-{
+typedef struct {
     int fd;
     int32_t recvl;
     uint64_t recvn;
@@ -61,6 +67,7 @@ typedef struct
 } wrc; // wrc struct definition
 
 void wrc_default(wrc *);
+static wc_err wrc_error(wc_err);
 void wrc_destroy(wrc *);
 
 int8_t wrc_setopts(wrc *, wc_iface, pa, int8_t);
