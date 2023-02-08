@@ -20,7 +20,7 @@ void wrc_default(wrc* w) {
     w->ign_pa = PA_NULL;
 } // creating a socket
 
-static wc_err wrc_error(wc_err err) {
+wc_err wrc_error(wc_err err) {
     if (ERR_NULL == err.code)
         return WC_ERROR;
     else

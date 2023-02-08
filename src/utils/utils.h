@@ -17,8 +17,8 @@
 #include <net/if.h>
 #include <time.h>
 
-#define OK 0
-#define ERR 1
+#define WC_OK 0
+#define WC_ERR 1
 
 #define MAX_TEXTFORMAT_BUFFERS 2048
 #define MAX_TEXT_BUFFER_LENGTH 2048

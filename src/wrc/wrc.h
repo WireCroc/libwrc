@@ -65,7 +65,7 @@ typedef struct {
 } wrc; // wrc struct definition
 
 void wrc_default(wrc *);
-static wc_err wrc_error(wc_err);
+wc_err wrc_error(wc_err);
 void wrc_destroy(wrc *);
 
 int8_t wrc_setopts(wrc *, wc_iface, pa, int8_t);
