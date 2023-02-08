@@ -17,6 +17,8 @@
 #define ERR_SOCK 4
 #define ERR_SETSOCK 5
 
+#define ERR_PASS (wc_err) {.code = ERR_NULL}
+
 typedef enum {
     PA_NULL = 0,
     PA_IP,

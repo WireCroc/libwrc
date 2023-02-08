@@ -21,10 +21,10 @@ void wrc_default(wrc* w) {
 } // creating a socket
 
 wc_err wrc_error(wc_err err) {
-    if (ERR_NULL == err.code)
-        return WC_ERROR;
-    else
+    if (ERR_NULL != err.code)
         WC_ERROR = err;
+    
+    return WC_ERROR;
 }
 
 int8_t wrc_setopts(wrc* w, wc_iface ifc, pa ignore_p, int8_t flag) {
