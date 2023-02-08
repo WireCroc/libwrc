@@ -40,7 +40,7 @@ int8_t wrc_setopts(wrc* w, wc_iface ifc, pa ignore_p, int8_t flag) {
     w->iface = ifc;
     w->ign_pa = ignore_p;
     w->flag = flag;
-    return OK;
+    return WC_OK;
 } // setting options
 
 void wrc_destroy(wrc *w) {
@@ -69,7 +69,7 @@ int8_t wrc_cap(wrc* w, uint8_t f, void (*cb)(wc_pa, FILE*)) {
     } while (CAPL);
     fclose(fp);
     
-    return OK;
+    return WC_OK;
 } // capturing packets
 
 void DEFAULT_CAP(wc_pa pa, FILE* fp) {
