@@ -5,14 +5,14 @@ static wc_err WC_ERROR = {0};
 
 void wrc_default(wrc* w) {
     // todo(stdout, "Impl Wrc Default VL", 0);
-    if (getuid())
-        wrc_error((wc_err) {.code = ERR_SUDO, .msg = "Error: please run program with sudo"});
+    if (geteuid())
+        wrc_error((wc_err) {.code = ERR_SUDO, .msg = "Error: please run program with sudo\n"});
     
     w->fd = socket(AF_PACKET , SOCK_RAW , htons(ETH_P_ALL));
     if (w->fd < 0) {
-        wrc_error((wc_err) {.code = ERR_SOCK, .msg = "Error: failed init socket"});
-        exit(w->fd);
+        fprintf(stderr, "Error: failed init socket\n");
     }
+        
     w->recvl = 0;
     w->recvn = 0;
     w->iface = (wc_iface) {0};
