@@ -20,17 +20,17 @@ int main(void) {
     
     wrc_default(&cap);
 
-    int opts = wrc_setopts(&cap, ifc.ifc[2], PA_NULL, 0);
+    int opts = wrc_setopts(&cap, ifc.ifc[1], PA_NULL, 0);
     if (opts != 0) {
         printf("setopts error\n");
         exit(0);
     }
 
-    wrc_cap(&cap, 1, DEFAULT_CAP);
+    wrc_cap(&cap, WCFILE, NULL, DEFAULT_CAP);
     
     wrc_destroy(&cap);
-        
-    return 0; 
+    
+    return 0;
 }
 ```
 
