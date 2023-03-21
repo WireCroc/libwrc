@@ -32,8 +32,9 @@ typedef struct {
     char *sender_ip;
     char *target_mac;
     char *target_ip;
+    void *pl;
 } wc_arp; // arp struct definition
 
-void wc_arp_p(const unsigned char* in, wc_arp* out);
+void wc_arp_p(const unsigned char* in, wc_arp* out, wc_eth *prev);
 
 #endif

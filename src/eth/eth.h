@@ -15,12 +15,12 @@
 
 typedef struct ethhdr wc_ethdr;
 
-typedef struct
-{
-    unsigned char *source;
-    unsigned char *dest;
+typedef struct {
+    unsigned char* source;
+    unsigned char* dest;
     unsigned short proto;
-} wc_eth; // eth struct definition
+    void* pl;
+} wc_eth;
 
 void wc_eth_p(const unsigned char *in, wc_eth *out);
 

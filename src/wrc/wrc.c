@@ -51,7 +51,7 @@ void wrc_destroy(wrc *w) {
        free(w->recv);
 } // closing a socket and freeing memory
 
-int8_t wrc_cap(wrc* w, uint8_t f, void (*cb)(wc_pa, FILE*)) {
+int8_t wrc_cap(wrc* w, uint8_t f, wc_pa* cp, void (*cb)(wc_pa, FILE*)) {
     // todo(stdout, "Run sniffer in loop", 0);
     FILE* fp;
     if (f != 0) {
@@ -63,6 +63,9 @@ int8_t wrc_cap(wrc* w, uint8_t f, void (*cb)(wc_pa, FILE*)) {
 
     do {
         wc_pa pa = wrc_get_packets(w);
+        if (cp != NULL)
+            cp = &pa;
+        
         if (pa.p[0] == PA_NULL)
             CAPL = 0;
         cb(pa, f != 0 ? fp : stdout);
@@ -73,17 +76,22 @@ int8_t wrc_cap(wrc* w, uint8_t f, void (*cb)(wc_pa, FILE*)) {
 } // capturing packets
 
 void DEFAULT_CAP(wc_pa pa, FILE* fp) {
+    wc_ip* tip = (wc_ip*)malloc(sizeof(wc_ip));
     for (int i = 0; i < MAX_PA; i++) {
-        if (pa.p[i] == PA_ETH) {            
-            fprintf(fp, "Ethernet\n\tMac Src: %s\t|\tMac Dst: %s\n", pa.eth.source, pa.eth.dest);
+        if (pa.p[i] == PA_ETH) {
+            fprintf(fp, "Ethernet\n\tMac Src: %s\t|\tMac Dst: %s\n", pa.pack.source, pa.pack.dest);
         } else if (pa.p[i] == PA_ARP) {
-            fprintf(fp, "ARP\n\tHardware Type: %s\t|\tProtocol Type: %s\n\tHardware Address Length: %d\t|\tProtocol Address Length: %d\n\tOpcode: %s\n\tSender Mac: %s\n\tTarget Mac: %s\n\tSender IP: %s\n\tTarget IP: %s\n", pa.arp.hw_t, pa.arp.p_t, pa.arp.hw_len, pa.arp.p_len, pa.arp.opcode, pa.arp.sender_mac, pa.arp.target_mac, pa.arp.sender_ip, pa.arp.target_ip);
+            wc_arp* arp = (wc_arp *)pa.pack.pl;
+            fprintf(fp, "ARP\n\tHardware Type: %s\t|\tProtocol Type: %s\n\tHardware Address Length: %d\t|\tProtocol Address Length: %d\n\tOpcode: %s\n\tSender Mac: %s\n\tTarget Mac: %s\n\tSender IP: %s\n\tTarget IP: %s\n", arp->hw_t, arp->p_t, arp->hw_len, arp->p_len, arp->opcode, arp->sender_mac, arp->target_mac, arp->sender_ip, arp->target_ip);
         } else if (pa.p[i] == PA_IP) {
-            fprintf(fp, "IP\n\tSrc Address: %s\t|\tDst Address: %s\n", pa.ip.source, pa.ip.dest);
+            tip = (wc_ip*)pa.pack.pl;
+            fprintf(fp, "IP\n\tSrc Address: %s\t|\tDst Address: %s\n", tip->source, tip->dest);
         } else if (pa.p[i] == PA_TCP) {
-            fprintf(fp, "TCP\n\tWindow: %u\t|\tACK Sequence: %u\n\tSequence: %u\n\tSrc Port: %d\t|\tDst Port: %d\n", pa.tcp.window, pa.tcp.ack_sequence, pa.tcp.sequence, pa.tcp.source, pa.tcp.dest);
+            wc_tcp* tcp = (wc_tcp*)tip->pl;
+            fprintf(fp, "TCP\n\tWindow: %u\t|\tACK Sequence: %u\n\tSequence: %u\n\tSrc Port: %d\t|\tDst Port: %d\n", tcp->window, tcp->ack_sequence, tcp->sequence, tcp->source, tcp->dest);
         } else if (pa.p[i] == PA_UDP) {
-            fprintf(fp, "UDP\n\tSrc Port: %d\t|\tDst Port: %d\n", pa.udp.source, pa.udp.dest);
+            wc_udp* udp = (wc_udp*)tip->pl;
+            fprintf(fp, "UDP\n\tSrc Port: %d\t|\tDst Port: %d\n", udp->source, udp->dest);
         } else if (pa.p[i] == PA_NULL && (i + 1 == MAX_PA || i == MAX_PA - 2)) {
             fprintf(fp, "\t_________________________\n");
         }
@@ -130,23 +138,27 @@ wc_pa wrc_get_packets(wrc* w) {
         fprintf(stderr, "Cant Get Packets\n");
         return (wc_pa) {.p[0] = PA_NULL};
     } else {
-        wc_eth_p(w->recv, &res.eth);
+        wc_eth_p(w->recv, &res.pack);
         res.p[0] = PA_ETH;
-        if (res.eth.proto == ARP) {
-            wc_arp_p(w->recv, &res.arp);
+        if (res.pack.proto == ARP) {
+            wc_arp* arp = (wc_arp*)malloc(sizeof(wc_arp));
+            wc_arp_p(w->recv, arp, &res.pack);
             res.p[1] = PA_ARP;
             
             return res;
-        } else if (res.eth.proto == IP) {
-            wc_ip_p(w->recv, &res.ip);
+        } else if (res.pack.proto == IP) {
+            wc_ip* ip = (wc_ip*)malloc(sizeof(wc_ip));
+            wc_ip_p(w->recv, ip, &res.pack);
             res.p[1] = PA_IP;
-            if (res.ip.proto == TCP) {
-                wc_tcp_p(w->recv, &res.tcp, res.ip.ihl);
+            if (ip->proto == TCP) {
+                wc_tcp* tcp = (wc_tcp*)malloc(sizeof(wc_tcp));
+                wc_tcp_p(w->recv, tcp, ip->ihl, ip);
                 res.p[2] = PA_TCP;
                 
                 return res;
-            } else if (res.ip.proto == UDP) {
-                wc_udp_p(w->recv, &res.udp, res.ip.ihl);
+            } else if (ip->proto == UDP) {
+                wc_udp* udp = (wc_udp*)malloc(sizeof(wc_udp));
+                wc_udp_p(w->recv, udp, ip->ihl, ip);
                 res.p[2] = PA_UDP;
                 
                 return res;
@@ -157,10 +169,5 @@ wc_pa wrc_get_packets(wrc* w) {
 } // getting packets and returning them
 
 void wc_pa_set(wc_pa *p) {
-    p->eth = (wc_eth) {0};
-    p->arp = (wc_arp) {0};
-    p->ip = (wc_ip) {0};
-    p->tcp = (wc_tcp) {0};
-    p->udp = (wc_udp) {0};
     memset(p->p, 0, sizeof(p->p));
 } // declaring packet struct

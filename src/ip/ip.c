@@ -1,6 +1,6 @@
 #include "ip.h"
 
-void wc_ip_p(const unsigned char *in, wc_ip *out)
+void wc_ip_p(const unsigned char *in, wc_ip *out, wc_eth *prev)
 {
     struct sockaddr_in si, di;
     memset(&si, 0, sizeof(si));
@@ -17,6 +17,8 @@ void wc_ip_p(const unsigned char *in, wc_ip *out)
     out->ident = ip->id;
     out->hchs = ip->check;
     out->tos = ip->tos;
-
     out->proto = ip->protocol;
+
+    out->pl = NULL;
+    prev->pl = (void*)out;
 } // parse ip header

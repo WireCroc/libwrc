@@ -5,6 +5,7 @@
 
 #include "../utils/utils.h"
 #include "../eth/eth.h"
+#include "../ip/ip.h"
 #include <netinet/tcp.h>
 
 typedef struct tcphdr wc_tcphdr;
@@ -17,8 +18,9 @@ typedef struct {
     uint16_t window;
     uint16_t checksum;
     uint8_t flag;
+    void* pl;
 } wc_tcp; // tcp struct definition
 
-void wc_tcp_p(const unsigned char*, wc_tcp*, uint16_t);
+void wc_tcp_p(const unsigned char*, wc_tcp*, uint16_t, wc_ip*);
 
 #endif
